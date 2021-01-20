@@ -1,0 +1,32 @@
+<html>
+
+<body>
+    <h4>Hello PDQ.js</h4>
+    <p>The next lines should contain a PDQ Report:</p>
+    <pre id="out"></pre>
+</body>
+<script type="module">
+    import Module from "./dist/pdq.mjs";
+    (async function () {
+        var oldLog = console.log;
+        console.log = function (message) {
+            document.getElementById('out').innerHTML += message + '\n'
+            oldLog.apply(console, arguments);
+        };
+        const pdq = await Module();
+        console.debug("pdq is ", Module)
+        const requests = 400;
+        const threads = 300;
+        const service_time = 0.444;
+
+        pdq.init("My model");
+        pdq.createClosed("Requests", pdq.BATCH, requests, 0.0);
+        pdq.createMultiNode(threads, "Threads", pdq.MSC, pdq.FCFS);
+        pdq.setDemand("Threads", "Requests", service_time);
+        pdq.setWUnit("Reqs");
+        pdq.solve(pdq.EXACT);
+        pdq.report();
+    })()
+</script>
+
+</html>

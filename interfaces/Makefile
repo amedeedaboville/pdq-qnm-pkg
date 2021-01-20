@@ -12,12 +12,14 @@ DISTRIB_FULL := $(DISTRIB_BUILD_TMP)/FULL
 DISTRIB_R := $(DISTRIB_BUILD_TMP)/R
 
 
-all:	R 
+all:	R js
 
 
 R:
 	make --directory=$@
 
+js:
+	make --directory=$@
 
 
 clean:

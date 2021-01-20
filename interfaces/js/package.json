@@ -1,0 +1,26 @@
+{
+  "name": "@amedee/pdq",
+  "version": "0.1.0",
+  "description": "A Javascript port of the PDQ queueing theory library.",
+  "main": "dist/pdq.js",
+  "module": "dist/pdq.mjs",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amedeedaboville/pdq-qnm-pkg.git"
+  },
+  "keywords": [
+    "pdq",
+    "queueing",
+    "performance",
+    "analysis"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amedeedaboville/pdq-qnm-pkg/issues"
+  },
+  "homepage": "https://github.com/amedeedaboville/pdq-qnm-pkg#readme"
+}
