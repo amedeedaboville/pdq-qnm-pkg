@@ -4,8 +4,11 @@
   "description": "A Javascript port of the PDQ queueing theory library.",
   "main": "dist/pdq.js",
   "module": "dist/pdq.mjs",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
-	"build": "make clean && make build",
+    "build": "make clean && make build",
     "test": "node test.js"
   },
   "repository": {
