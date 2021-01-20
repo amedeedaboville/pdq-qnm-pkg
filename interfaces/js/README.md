@@ -6,6 +6,9 @@ It exports an ES Module with .mjs extension (for web) and a CommonJS module for 
 
 Example uses are found in `test.js` (node) and `test.html` (web).
 
+Dependencies
+----
+Emscripten (emcc and related) tools are needed for the build.
 
 Notes
 ----
