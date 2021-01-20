@@ -5,6 +5,7 @@
   "main": "dist/pdq.js",
   "module": "dist/pdq.mjs",
   "scripts": {
+	"build": "make clean && make build",
     "test": "node test.js"
   },
   "repository": {
