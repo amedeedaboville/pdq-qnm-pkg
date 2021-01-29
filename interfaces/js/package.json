@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "build": "make clean && make build",
+    "doc": "rm -r out && node_modules/.bin/jsdoc post.js",
     "test": "node test.js"
   },
   "repository": {
@@ -26,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/amedeedaboville/pdq-qnm-pkg/issues"
   },
-  "homepage": "https://github.com/amedeedaboville/pdq-qnm-pkg#readme"
+  "homepage": "https://github.com/amedeedaboville/pdq-qnm-pkg#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.6"
+  }
 }
