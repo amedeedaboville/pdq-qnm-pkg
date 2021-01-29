@@ -12,8 +12,9 @@ Emscripten (emcc and related) tools are needed for the build.
 
 Notes
 ----
-ATM the ESM module only supports web and the CJS module only supports running in node.
-When https://github.com/emscripten-core/emscripten/issues/11792 and related issues are fixed,
+ATM the ES module only supports web and the CJS module only supports running in node.
+When https://github.com/emscripten-core/emscripten/issues/11792 and related issues are fixed
+I'll turn on `environment=node,script` and probably make the ES Module the only compiled output of the package.
 
 First todo is to make a wrapper function that returns the results of `report()` as an object instead
 of logging to the console.
