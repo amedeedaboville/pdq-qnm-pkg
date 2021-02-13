@@ -1,10 +1,34 @@
 PDQ.js - Javascript version
 ----
+![GitHub pages](https://github.com/amedeedaboville/pdq-qnm-pkg/workflows/GitHub%20pages/badge.svg?branch=master)
+
 This is a version of PDQ compiled to Javascript/WASM with the Emscripten C->JS compiler.
 
 It exports an ES Module with .mjs extension (for web) and a CommonJS module for node (for use with require()).
 
-Example uses are found in `test.js` (node) and `test.html` (web).
+Documentation
+----
+[Documentation is here](https://amedeedaboville.github.io/pdq-qnm-pkg/).
+
+An example use looks like this:
+
+```
+require('./dist/pdq.js')().then(pdq => {
+    const requests = 400;
+    const threads = 300;
+    const service_time = 0.444;
+
+    pdq.init("My model");
+    pdq.createClosed("Requests", pdq.BATCH, requests, 0.0);
+    pdq.createMultiNode(threads, "Threads", pdq.MSC, pdq.FCFS);
+    pdq.setDemand("Threads", "Requests", service_time);
+    pdq.setWUnit("Reqs");
+    pdq.solve(pdq.EXACT);
+    pdq.report();
+})
+```
+
+Other examples are found in `test.js` (node) and `test.html` (web).
 
 Dependencies
 ----
