@@ -1,4 +1,4 @@
-.PHONY:clean build
+.PHONY:clean build  doc
 
 MKDIR_P = mkdir -p
 DIST_DIR=dist
@@ -13,6 +13,8 @@ CFLAGS=-s TOTAL_MEMORY=150mb -s TOTAL_STACK=8mb \
 	-O2 --post-js post.js
 WEB_TARGET=$(DIST_DIR)/pdq.mjs
 NODE_TARGET=$(DIST_DIR)/pdq.js
+TYPES_TARGET=$(DIST_DIR)/pdq.d.ts
+DOC_TARGET=out/
 
 all: build
 
@@ -25,7 +27,18 @@ $(NODE_TARGET): $(SOURCES) | $(DIST_DIR)
 $(WEB_TARGET): $(SOURCES) | $(DIST_DIR)
 	$(CC) $^ $(CFLAGS) -o $@ -s "EXPORT_ES6=1" -s ENVIRONMENT="web,worker"
 
-build: $(NODE_TARGET) $(WEB_TARGET)
+$(DOC_TARGET):
+	npm run doc
+
+$(TYPES_TARGET):
+	npm run types
+
+doc: $(DOC_TARGET)
+
+types: $(TYPES_TARGET)
+
+build: $(NODE_TARGET) $(WEB_TARGET) doc types
 
 clean:
 	$(RM)  -rf dist/
+	$(RM)  -rf out/

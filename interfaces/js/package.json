@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "build": "make clean && make build",
-    "doc": "rm -r out && node_modules/.bin/jsdoc post.js -R README.md",
+    "doc": "rm -rf ./out && node_modules/.bin/jsdoc post.js -R README.md",
+    "types": "node_modules/.bin/tsc",
     "test": "node test.js"
   },
   "repository": {
@@ -29,6 +30,7 @@
   },
   "homepage": "https://github.com/amedeedaboville/pdq-qnm-pkg#readme",
   "devDependencies": {
-    "jsdoc": "^3.6.6"
+    "jsdoc": "^3.6.6",
+    "typescript": "^4.1.5"
   }
 }
