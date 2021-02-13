@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "make clean && make build",
-    "doc": "rm -r out && node_modules/.bin/jsdoc post.js",
+    "doc": "rm -r out && node_modules/.bin/jsdoc post.js -R README.md",
     "test": "node test.js"
   },
   "repository": {
