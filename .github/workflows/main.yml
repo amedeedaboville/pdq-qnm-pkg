@@ -15,7 +15,7 @@ jobs:
       - name: Build
         uses: andstor/jsdoc-action@v1
         with:
-          source_dir: ./interfaces/js
+          source_dir: ./interfaces/js/post.js
           output_dir: ./out
           template: minami
           front_page: ./README.md
