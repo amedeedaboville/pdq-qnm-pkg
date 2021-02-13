@@ -1,6 +1,6 @@
 {
   "name": "@amedee/pdq",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A Javascript port of the PDQ queueing theory library.",
   "main": "dist/pdq.js",
   "module": "dist/pdq.mjs",
