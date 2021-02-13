@@ -13,12 +13,13 @@ DISTRIB_FULL := $(DISTRIB_BUILD_TMP)/FULL
 DISTRIB_R := $(DISTRIB_BUILD_TMP)/R
 
 
-all:	lib R 
+all:	lib R js
 
 lib:
 	make --directory=$@
 
-
+js: lib
+	make --directory=interfaces $@
 
 R:
 	make --directory=interfaces $@
