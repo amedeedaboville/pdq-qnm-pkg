@@ -48,18 +48,120 @@
 
 
     <section class="readme">
-        <article><h2>PDQ.js - Javascript version</h2>
-<p>This is a version of PDQ compiled to Javascript/WASM with the Emscripten C-&gt;JS compiler.</p>
-<p>It exports an ES Module with .mjs extension (for web) and a CommonJS module for node (for use with require()).</p>
-<p>Example uses are found in <code>test.js</code> (node) and <code>test.html</code> (web).</p>
-<h2>Dependencies</h2>
-<p>Emscripten (emcc and related) tools are needed for the build.</p>
-<h2>Notes</h2>
-<p>ATM the ES module only supports web and the CJS module only supports running in node.
-When https://github.com/emscripten-core/emscripten/issues/11792 and related issues are fixed
-I'll turn on <code>environment=node,script</code> and probably make the ES Module the only compiled output of the package.</p>
-<p>First todo is to make a wrapper function that returns the results of <code>report()</code> as an object instead
-of logging to the console.</p></article>
+        <article><h1>PDQ: Pretty Damn Quick</h1>
+<h2>Major release 7.0.0</h2>
+<p>This is a <strong>development</strong> repository.
+The current release, <strong>PDQ 6.2.0</strong>, has its
+own <a href="http://www.perfdynamics.com/Tools/PDQcode.html">repository</a> with separate download and installation instructions.</p>
+<p>PDQ is a library of functions for solving queueing-network models of
+systems of resources such as, distributed computer systems, manufacturing systems,
+and packet networks.
+PDQ models can be written optionally in a variety of conventional programming languages.
+The book <a href="http://www.perfdynamics.com/iBook/ppa_new.html">Analyzing Computer System Performance with Perl::PDQ</a>
+presents example applications for computer system performance analysis written in Perl.
+Another example below is written in Python.</p>
+<p><strong>Overview:</strong>	<a href="http://www.perfdynamics.com/Tools/PDQ.html">What is PDQ?</a></p>
+<p><strong>Languages:</strong>	
+This release only supports the <a href="https://en.wikibooks.org/wiki/C_Programming">C</a> language
+(the native language of the PDQ library)  and the very popular
+<a href="http://www.perfdynamics.com/Tools/PDQ-R.html">R</a> statistical language.
+Example PDQ models in R can be found in the <code>pdq-qnm-pkg/interfaces/R/pdq/demo/</code> directory.</p>
+<p>The migration of <a href="https://wiki.python.org/moin/Python2orPython3">Python from 2 to 3</a>
+has introduced maintenance complications for PDQ.
+Python 3 may eventually be accommodated in future PDQ releases.</p>
+<p><a href="http://www.perfdynamics.com/Tools/PDQperl.html">Perl</a> maintenance has officially ended with
+PDQ release 6.2.0 in order to remain compatible with the 2nd edition of the
+<a href="http://www.perfdynamics.com/iBook/ppa_new.html">Perl PDQ book</a> (2011).</p>
+<p><strong>Platforms:</strong>	Linux, MacOS, Windows</p>
+<p><strong>Maintainers:</strong> Neil Gunther and Paul Puglia</p>
+<p><strong>Contributors:</strong> Denny Chen, Phil Feller, Neil Gunther, Peter Harding, Paul Puglia, Sam Zallocco</p>
+<p><strong>License:</strong> PDQ is distributed as OSS under the <a href="https://en.wikipedia.org/wiki/MIT_License#License_terms">MIT license</a>.</p>
+<p><strong>Synopsis:</strong> <a href="http://www.perfdynamics.com/Tools/PDQman.html">PDQ library functions</a></p>
+<p><strong>Example:</strong></p>
+<p>The following PDQ code, written in R, is a model of an AWS cloud application
+implemented using the <code>CreateMultiNode</code> function along with the new <code>MSC</code> option for solving a
+multiserver queue that services a finite number of user requests. You can read the background
+to this PDQ model in the paper entitled:<br>
+<a href="https://arxiv.org/abs/1811.12341">Linux-Tomcat Application Performance on Amazon AWS</a>.</p>
+<pre class="prettyprint source lang-R"><code>library(pdq)
+
+requests &lt;- 400;   # user load
+threads  &lt;- 300;   # tomcat threads
+stime    &lt;- 0.444; # measured service time
+
+Init(&quot;AWS Tomcat Model&quot;)  
+CreateClosed(&quot;Requests&quot;, BATCH, requests, 0.0)
+CreateMultiNode(threads, &quot;Threads&quot;, MSC, FCFS) 
+SetDemand(&quot;Threads&quot;, &quot;Requests&quot;, stime) 
+SetWUnit(&quot;Reqs&quot;)
+Solve(EXACT)
+Report()
+</code></pre>
+<p>In this model, the Tomcat threads on AWS play the role of queueing servers.</p>
+<pre class="prettyprint source"><code>                        PRETTY DAMN QUICK REPORT         
+               ==========================================
+               ***  on   Tue Nov 24 08:10:59 2020     ***
+               ***  for  AWS Tomcat Model             ***
+               ***  PDQ  Version 7.0.0 Build 112420   ***
+               ==========================================
+
+               ==========================================
+               ********      PDQ Model INPUTS    ********
+               ==========================================
+
+Queueing Network Parameters
+
+Node Sched Resource   Workload   Class    Service time
+---- ----- --------   --------   -----    ------------
+MSC  FCFS  Threads    Requests   BATCH        0.444000
+
+Network type:   CLOSED
+Workload streams:    1
+Queueing nodes:      1
+
+
+Workload       Jobs        R minimum
+--------       ----        ----------
+Requests     400.00        0.4440
+
+
+               ==========================================
+               ********     PDQ Model OUTPUTS    ********
+               ==========================================
+
+Solution method: EXACT
+
+               ********   SYSTEM Performance     ********
+
+Metric                   Value      Unit
+------                  -------     ----
+Workload: &quot;Requests&quot;
+Mean concurrency        400.0000    Reqs
+Mean throughput         675.6757    Reqs/Sec
+Response time             0.5920    Sec
+Stretch factor            1.3333
+
+Bounds Analysis:
+Max throughput          675.6757    Reqs/Sec
+Min response              0.4440    Sec
+Max demand                0.0015    Sec
+Total demand              0.4440    Sec
+Optimal jobs            300.0000    Jobs
+
+
+               ********   RESOURCE Performance   ********
+
+Metric          Resource     Work               Value    Unit
+------          --------     ----              -------   ----
+Capacity        Threads      Requests              300   Servers
+Throughput      Threads      Requests         675.6757   Reqs/Sec
+In service      Threads      Requests         300.0000   Reqs
+Utilization     Threads      Requests         100.0000   Percent
+Queue length    Threads      Requests         400.0000   Reqs
+Waiting line    Threads      Requests         100.0000   Reqs
+Waiting time    Threads      Requests           0.1480   Sec
+Residence time  Threads      Requests           0.5920   Sec
+</code></pre></article>
     </section>
 
 
@@ -72,7 +174,7 @@ of logging to the console.</p></article>
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Sat Feb 13 2021 22:14:18 GMT+0000 (Coordinated Universal Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Sat Feb 13 2021 22:16:17 GMT+0000 (Coordinated Universal Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>
